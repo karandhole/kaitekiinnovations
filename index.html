@@ -1,0 +1,1594 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kaiteki Innovations builds dignity-first assistive sanitation and inclusive infrastructure solutions for hospitals, institutions, governments, and accessibility partners.">
+  <title>Kaiteki Innovations | Designing Accessible Futures</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: oklch(1 0 0);
+      --surface: oklch(0.975 0.006 245);
+      --surface-strong: oklch(0.945 0.018 245);
+      --ink: oklch(0.19 0.035 245);
+      --muted: oklch(0.43 0.04 245);
+      --primary: oklch(0.43 0.13 245);
+      --primary-deep: oklch(0.27 0.11 245);
+      --primary-soft: oklch(0.88 0.055 245);
+      --olive: oklch(0.56 0.11 112);
+      --olive-soft: oklch(0.91 0.055 112);
+      --warm: oklch(0.66 0.13 39);
+      --line: oklch(0.82 0.025 245);
+      --focus: oklch(0.72 0.16 72);
+      --radius: 16px;
+      --radius-tight: 10px;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --space-24: 6rem;
+      --font-display: "Segoe UI Variable Display", "Aptos Display", "Segoe UI", system-ui, sans-serif;
+      --font-body: "Aptos", "Segoe UI", system-ui, sans-serif;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.68;
+      text-rendering: optimizeLegibility;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 40;
+      height: 4px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      background: var(--focus);
+    }
+
+    body.nav-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      left: var(--space-4);
+      top: var(--space-4);
+      z-index: 30;
+      transform: translateY(-160%);
+      border-radius: 999px;
+      padding: var(--space-3) var(--space-4);
+      color: var(--ink);
+      background: var(--focus);
+      font-weight: 700;
+      transition: transform 180ms var(--ease-out);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: var(--space-6);
+      padding: var(--space-4) clamp(var(--space-4), 5vw, var(--space-16));
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in oklch, var(--bg) 94%, transparent);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-family: var(--font-display);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: block;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--bg);
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(var(--space-3), 3vw, var(--space-8));
+      color: var(--muted);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .nav-links a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .menu-button {
+      display: none;
+      width: 2.75rem;
+      height: 2.75rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-tight);
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .menu-button span {
+      display: block;
+      width: 1.25rem;
+      height: 2px;
+      margin: 0.34rem auto;
+      background: currentColor;
+    }
+
+    .button {
+      min-height: 3rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0 var(--space-5, 1.25rem);
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 1;
+      transition: transform 180ms var(--ease-out), background 180ms var(--ease-out), color 180ms var(--ease-out);
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button.primary {
+      color: var(--bg);
+      background: var(--primary);
+    }
+
+    .button.secondary {
+      border-color: color-mix(in oklch, var(--bg) 38%, transparent);
+      color: var(--bg);
+      background: color-mix(in oklch, var(--bg) 12%, transparent);
+    }
+
+    .button.ghost {
+      border-color: var(--line);
+      color: var(--primary);
+      background: var(--bg);
+    }
+
+    main {
+      overflow: clip;
+    }
+
+    .hero {
+      position: relative;
+      min-height: calc(100svh - 74px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.94fr) minmax(320px, 1.06fr);
+      align-items: stretch;
+      background: var(--primary-deep);
+      color: var(--bg);
+    }
+
+    .hero::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        linear-gradient(90deg, transparent 0 8%, color-mix(in oklch, var(--bg) 10%, transparent) 8% calc(8% + 1px), transparent calc(8% + 1px)),
+        linear-gradient(90deg, transparent 0 58%, color-mix(in oklch, var(--bg) 8%, transparent) 58% calc(58% + 1px), transparent calc(58% + 1px));
+    }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-16);
+      padding: clamp(var(--space-8), 8vw, var(--space-24)) clamp(var(--space-5, 1.25rem), 6vw, var(--space-20));
+    }
+
+    .hero-kicker {
+      max-width: 26rem;
+      color: color-mix(in oklch, var(--bg) 84%, var(--primary-soft));
+      font-weight: 700;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    .stat-number {
+      font-family: var(--font-display);
+      font-weight: 900;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+
+    h1 {
+      max-width: 11ch;
+      margin-bottom: var(--space-6);
+      font-size: clamp(3rem, 8vw, 6rem);
+    }
+
+    h2 {
+      max-width: 13ch;
+      margin-bottom: var(--space-6);
+      font-size: clamp(2.2rem, 5vw, 4.6rem);
+    }
+
+    h3 {
+      margin-bottom: var(--space-3);
+      font-size: clamp(1.25rem, 2vw, 1.8rem);
+    }
+
+    p {
+      color: var(--muted);
+      text-wrap: pretty;
+    }
+
+    .hero p {
+      max-width: 42rem;
+      color: color-mix(in oklch, var(--bg) 88%, var(--primary-soft));
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      line-height: 1.72;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-8);
+    }
+
+    .hero-wayfinding {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid color-mix(in oklch, var(--bg) 22%, transparent);
+      border-radius: var(--radius);
+      background: color-mix(in oklch, var(--bg) 22%, transparent);
+    }
+
+    .hero-wayfinding span {
+      min-height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      color: var(--bg);
+      background: color-mix(in oklch, var(--primary) 42%, transparent);
+      font-family: var(--font-display);
+      font-weight: 800;
+    }
+
+    .hero-wayfinding span::after {
+      content: ">";
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .hero-visual {
+      min-height: 32rem;
+      display: grid;
+      align-items: end;
+      padding: clamp(var(--space-4), 5vw, var(--space-12));
+      background:
+        linear-gradient(180deg, color-mix(in oklch, var(--primary-deep) 12%, transparent), color-mix(in oklch, var(--primary-deep) 78%, transparent)),
+        var(--primary);
+    }
+
+    .hero-visual img {
+      width: 100%;
+      height: min(72svh, 46rem);
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+
+    .hero-caption {
+      width: min(32rem, calc(100% - var(--space-6)));
+      margin: calc(-1 * var(--space-12)) var(--space-6) var(--space-6);
+      position: relative;
+      border-radius: var(--radius);
+      padding: var(--space-5, 1.25rem);
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    .hero-caption strong {
+      display: block;
+      margin-bottom: var(--space-2);
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .hero-caption span {
+      color: var(--muted);
+    }
+
+    .section {
+      width: min(1180px, calc(100% - clamp(2rem, 6vw, 7rem)));
+      margin-inline: auto;
+      padding-block: clamp(var(--space-16), 10vw, var(--space-24));
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1.1fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: start;
+    }
+
+    .chapter-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+      color: var(--primary);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    .chapter-label::before {
+      width: 2.75rem;
+      height: 2px;
+      content: "";
+      background: currentColor;
+    }
+
+    .lead {
+      max-width: 64ch;
+      color: var(--ink);
+      font-size: clamp(1.15rem, 2vw, 1.45rem);
+      line-height: 1.62;
+    }
+
+    .problem-panel {
+      display: grid;
+      gap: var(--space-6);
+      padding: clamp(var(--space-6), 5vw, var(--space-12));
+      border-radius: var(--radius);
+      color: var(--bg);
+      background: var(--primary);
+    }
+
+    .problem-panel p {
+      color: color-mix(in oklch, var(--bg) 90%, var(--primary-soft));
+      font-size: 1.05rem;
+    }
+
+    .problem-panel strong {
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 1.14;
+      text-wrap: balance;
+    }
+
+    .bento-section {
+      background: var(--surface);
+    }
+
+    .bento-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: var(--space-8);
+      margin-bottom: var(--space-10, 2.5rem);
+    }
+
+    .bento-head p {
+      max-width: 45rem;
+      margin-bottom: 0;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(10rem, auto);
+      gap: var(--space-4);
+    }
+
+    .bento {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 18rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(var(--space-5, 1.25rem), 3vw, var(--space-8));
+      background: var(--bg);
+      transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out), background 220ms var(--ease-out);
+    }
+
+    .bento:hover {
+      transform: translateY(-3px);
+      border-color: color-mix(in oklch, var(--primary) 46%, var(--line));
+    }
+
+    .bento.image {
+      min-height: 24rem;
+      padding: 0;
+      background: var(--primary-deep);
+    }
+
+    .bento.image img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+    }
+
+    .bento.overlay::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(180deg, transparent 36%, color-mix(in oklch, var(--primary-deep) 78%, transparent));
+    }
+
+    .bento-content {
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      padding: var(--space-6);
+      color: var(--bg);
+    }
+
+    .bento-content p {
+      color: color-mix(in oklch, var(--bg) 86%, var(--primary-soft));
+    }
+
+    .span-7 {
+      grid-column: span 7;
+    }
+
+    .span-5 {
+      grid-column: span 5;
+    }
+
+    .span-4 {
+      grid-column: span 4;
+    }
+
+    .span-6 {
+      grid-column: span 6;
+    }
+
+    .span-8 {
+      grid-column: span 8;
+    }
+
+    .bento.blue {
+      color: var(--bg);
+      background: var(--primary);
+    }
+
+    .bento.blue p,
+    .bento.olive p {
+      color: color-mix(in oklch, var(--bg) 88%, transparent);
+    }
+
+    .bento.olive {
+      color: var(--bg);
+      background: var(--olive);
+    }
+
+    .bento.soft {
+      background: var(--primary-soft);
+    }
+
+    .bento.map {
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 24% 26%, color-mix(in oklch, var(--olive) 35%, transparent) 0 0.45rem, transparent 0.5rem),
+        radial-gradient(circle at 72% 34%, color-mix(in oklch, var(--primary) 34%, transparent) 0 0.45rem, transparent 0.5rem),
+        radial-gradient(circle at 58% 78%, color-mix(in oklch, var(--warm) 42%, transparent) 0 0.45rem, transparent 0.5rem),
+        linear-gradient(135deg, var(--bg), var(--surface));
+    }
+
+    .bento.map::before {
+      position: absolute;
+      inset: 2.25rem;
+      z-index: -1;
+      content: "";
+      border: 2px solid color-mix(in oklch, var(--primary) 28%, transparent);
+      border-radius: 50%;
+      transform: rotate(-14deg);
+    }
+
+    .stat-number {
+      display: block;
+      margin-bottom: var(--space-3);
+      font-size: clamp(2.5rem, 5vw, 4.25rem);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .guko-section {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: center;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: var(--space-4);
+      margin: var(--space-8) 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .feature-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-4);
+      align-items: start;
+      padding-block: var(--space-4);
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-list svg {
+      width: 1.55rem;
+      height: 1.55rem;
+      color: var(--primary);
+    }
+
+    .product-card {
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .product-card img {
+      width: 100%;
+      min-height: 32rem;
+      object-fit: cover;
+    }
+
+    .product-card figcaption {
+      padding: var(--space-5, 1.25rem) var(--space-6);
+      color: var(--muted);
+    }
+
+    .deployment-section {
+      color: var(--bg);
+      background: var(--primary-deep);
+    }
+
+    .deployment-section .section {
+      position: relative;
+    }
+
+    .deployment-section .section::before {
+      position: absolute;
+      inset: clamp(2rem, 6vw, 5rem) auto clamp(2rem, 6vw, 5rem) 50%;
+      width: 2px;
+      content: "";
+      background: linear-gradient(var(--focus), color-mix(in oklch, var(--bg) 24%, transparent));
+    }
+
+    .deployment-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: center;
+    }
+
+    .deployment-section .chapter-label,
+    .deployment-section h2,
+    .deployment-section .lead {
+      color: var(--bg);
+    }
+
+    .deployment-section p {
+      color: color-mix(in oklch, var(--bg) 84%, var(--primary-soft));
+    }
+
+    .partner-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-8);
+    }
+
+    .partner-cloud span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      border: 1px solid color-mix(in oklch, var(--bg) 24%, transparent);
+      border-radius: 999px;
+      padding-inline: var(--space-4);
+      color: var(--bg);
+      font-family: var(--font-display);
+      font-weight: 800;
+      transition: background 180ms var(--ease-out), color 180ms var(--ease-out), transform 180ms var(--ease-out);
+    }
+
+    .partner-cloud span:hover {
+      transform: translateY(-2px);
+      color: var(--primary-deep);
+      background: var(--bg);
+    }
+
+    .deployment-image {
+      overflow: hidden;
+      border-radius: var(--radius);
+    }
+
+    .deployment-image img {
+      width: 100%;
+      min-height: 34rem;
+      object-fit: cover;
+    }
+
+    .timeline {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .timeline article {
+      display: grid;
+      grid-template-columns: 5rem 1fr;
+      gap: var(--space-5, 1.25rem);
+      padding-block: var(--space-6);
+      border-top: 1px solid var(--line);
+    }
+
+    .timeline time {
+      color: var(--primary);
+      font-family: var(--font-display);
+      font-weight: 900;
+    }
+
+    .roadmap-band {
+      background: var(--surface-strong);
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: start;
+    }
+
+    .roadmap-list {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .roadmap-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-4);
+      align-items: start;
+      padding: var(--space-5, 1.25rem);
+      border-radius: var(--radius);
+      background: var(--bg);
+    }
+
+    .roadmap-item span {
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      color: var(--bg);
+      background: var(--primary);
+      font-family: var(--font-display);
+      font-weight: 900;
+    }
+
+    .gallery-section {
+      background:
+        linear-gradient(180deg, var(--bg), var(--surface) 46%, var(--bg));
+    }
+
+    .gallery-head {
+      display: grid;
+      grid-template-columns: minmax(0, 0.76fr) minmax(280px, 1fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: end;
+      margin-bottom: var(--space-10, 2.5rem);
+    }
+
+    .gallery-head p {
+      margin-bottom: 0;
+      color: var(--ink);
+      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    }
+
+    .gallery-bento {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(10rem, 12vw);
+      gap: var(--space-4);
+    }
+
+    .gallery-tile {
+      position: relative;
+      grid-column: span 4;
+      overflow: hidden;
+      min-height: 16rem;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0;
+      color: var(--bg);
+      background: var(--primary-deep);
+      font: inherit;
+      cursor: zoom-in;
+      isolation: isolate;
+      appearance: none;
+    }
+
+    .gallery-tile.wide {
+      grid-column: span 8;
+    }
+
+    .gallery-tile.tall {
+      grid-row: span 2;
+    }
+
+    .gallery-tile.square {
+      grid-column: span 4;
+      grid-row: span 2;
+    }
+
+    .gallery-tile img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+      transition: transform 520ms var(--ease-out), filter 520ms var(--ease-out);
+    }
+
+    .gallery-tile::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(180deg, transparent 42%, color-mix(in oklch, var(--primary-deep) 88%, transparent));
+    }
+
+    .gallery-tile:hover img,
+    .gallery-tile:focus-visible img {
+      transform: scale(1.045);
+      filter: saturate(1.08);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      inset: auto var(--space-4) var(--space-4);
+      z-index: 1;
+      display: grid;
+      gap: var(--space-1);
+      text-align: left;
+    }
+
+    .gallery-caption strong {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+
+    .gallery-caption span {
+      color: color-mix(in oklch, var(--bg) 84%, transparent);
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    .gallery-dialog {
+      width: min(1120px, calc(100vw - 2rem));
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0;
+      color: var(--bg);
+      background: var(--primary-deep);
+    }
+
+    .gallery-dialog::backdrop {
+      background: color-mix(in oklch, var(--primary-deep) 76%, transparent);
+    }
+
+    .gallery-dialog figure {
+      margin: 0;
+      display: grid;
+    }
+
+    .gallery-dialog img {
+      width: 100%;
+      max-height: min(78vh, 780px);
+      object-fit: contain;
+      background: var(--primary-deep);
+    }
+
+    .gallery-dialog figcaption {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      align-items: center;
+      padding: var(--space-4) var(--space-5, 1.25rem);
+    }
+
+    .dialog-close {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+      border: 1px solid color-mix(in oklch, var(--bg) 30%, transparent);
+      border-radius: 999px;
+      color: var(--bg);
+      background: transparent;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .founder-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: center;
+    }
+
+    blockquote {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.55rem, 3vw, 2.75rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    cite {
+      display: block;
+      margin-top: var(--space-6);
+      color: var(--muted);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-style: normal;
+      letter-spacing: 0;
+    }
+
+    .partner-cta {
+      background: var(--primary);
+      color: var(--bg);
+    }
+
+    .partner-cta .section {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+      gap: clamp(var(--space-8), 7vw, var(--space-20));
+      align-items: center;
+    }
+
+    .partner-cta h2,
+    .partner-cta .lead,
+    .partner-cta .chapter-label {
+      color: var(--bg);
+    }
+
+    .partner-visual {
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--primary-deep);
+    }
+
+    .partner-visual img {
+      width: 100%;
+      min-height: 30rem;
+      object-fit: cover;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+      max-width: 35rem;
+    }
+
+    .contact-form label {
+      display: grid;
+      gap: var(--space-2);
+      color: var(--bg);
+      font-weight: 700;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      border: 1px solid color-mix(in oklch, var(--bg) 34%, transparent);
+      border-radius: var(--radius-tight);
+      padding: var(--space-4);
+      color: var(--ink);
+      background: var(--bg);
+      font: inherit;
+    }
+
+    .contact-form textarea {
+      min-height: 8.5rem;
+      resize: vertical;
+    }
+
+    .form-note {
+      min-height: 1.5rem;
+      color: color-mix(in oklch, var(--bg) 88%, transparent);
+    }
+
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-8);
+      padding: var(--space-8) clamp(var(--space-4), 5vw, var(--space-16));
+      color: var(--muted);
+      background: var(--bg);
+    }
+
+    .site-footer strong {
+      display: block;
+      margin-bottom: var(--space-2);
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 900;
+    }
+
+    .site-footer a {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .reveal {
+      animation: rise-in 700ms var(--ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+
+    .reveal.delay {
+      animation-delay: 80ms;
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0.001;
+        transform: translateY(22px);
+        clip-path: inset(0 0 12% 0);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        clip-path: inset(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
+
+      .reveal {
+        animation: none;
+      }
+
+      .scroll-progress {
+        display: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .site-header {
+        grid-template-columns: auto auto;
+      }
+
+      .menu-button {
+        display: block;
+        justify-self: end;
+      }
+
+      .nav-links {
+        position: fixed;
+        inset: 4.75rem var(--space-4) auto;
+        display: none;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: var(--space-2);
+        background: var(--bg);
+      }
+
+      .nav-links.is-open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding-inline: var(--space-4);
+      }
+
+      .site-header > .button {
+        display: none;
+      }
+
+      .hero,
+      .intro-grid,
+      .guko-section,
+      .deployment-grid,
+      .roadmap,
+      .founder-section,
+      .partner-cta .section {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        min-height: 36rem;
+      }
+
+      .deployment-section .section::before {
+        display: none;
+      }
+
+      .bento-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .bento-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      .gallery-head {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-bento {
+        grid-template-columns: repeat(6, 1fr);
+        grid-auto-rows: minmax(12rem, auto);
+      }
+
+      .gallery-tile,
+      .gallery-tile.wide,
+      .gallery-tile.tall,
+      .gallery-tile.square {
+        grid-column: span 6;
+        grid-row: auto;
+      }
+
+      .span-7,
+      .span-5,
+      .span-4,
+      .span-6,
+      .span-8 {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-wayfinding {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        width: min(100% - 2rem, 1180px);
+      }
+
+      .bento-grid {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .gallery-bento {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .gallery-tile {
+        aspect-ratio: 4 / 3;
+      }
+
+      .gallery-dialog figcaption {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .timeline article {
+        grid-template-columns: 1fr;
+      }
+
+      .site-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .button,
+      .hero-actions {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Kaiteki Innovations home">
+      <img class="brand-mark" src="assets/kaiteki-logo.jpeg" alt="" aria-hidden="true">
+      <span>Kaiteki Innovations</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">
+      <span></span>
+      <span></span>
+    </button>
+    <nav id="site-nav" class="nav-links" aria-label="Primary navigation">
+      <a href="#guko">GUKO</a>
+      <a href="#impact">Impact</a>
+      <a href="#deployments">Deployments</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#partner">Partner</a>
+    </nav>
+    <a class="button ghost" href="#partner">Start a Partnership</a>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div>
+          <p class="hero-kicker">Assistive technology for dignity-first sanitation and inclusive infrastructure.</p>
+          <h1 id="hero-title">Designing Accessible Futures.</h1>
+          <p>Kaiteki Innovations builds practical accessibility systems that help people use everyday spaces with more independence, comfort, and dignity.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#guko">Explore GUKO</a>
+            <a class="button secondary" href="#partner">Partner With Kaiteki</a>
+          </div>
+        </div>
+        <div class="hero-wayfinding" aria-label="Kaiteki focus areas">
+          <span>Hospitals</span>
+          <span>Institutions</span>
+          <span>Public Access</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="assets/kaiteki-hero-accessible-restroom.png" alt="Wheelchair user entering an accessible institutional restroom with support rails and assistive hygiene infrastructure">
+        <div class="hero-caption">
+          <strong>Human impact, built into real environments.</strong>
+          <span>Designed for homes, hospitals, institutions, and public infrastructure where accessibility cannot be an afterthought.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro-grid reveal" aria-labelledby="about-title">
+      <div>
+        <span class="chapter-label">About Kaiteki</span>
+        <h2 id="about-title">Accessibility should feel human.</h2>
+      </div>
+      <div>
+        <p class="lead">Founded in 2022, Kaiteki Innovations was built on a simple belief: accessibility should be part of everyday infrastructure, not an expensive retrofit only a few can afford.</p>
+        <p>Across homes, hospitals, institutions, and public spaces, millions of people continue to navigate environments that were not designed for independent use. Kaiteki combines lived experience, assistive technology, sanitation design, and practical deployment to close that gap.</p>
+        <p>Kaiteki Innovations Private Limited is a DPIIT-recognized startup registered under RoC Hyderabad, working across healthcare accessibility, inclusive infrastructure, and sanitation innovation.</p>
+      </div>
+    </section>
+
+    <section class="section intro-grid reveal" aria-labelledby="problem-title">
+      <div>
+        <span class="chapter-label">The access gap</span>
+        <h2 id="problem-title">Basic sanitation is still inaccessible for too many people.</h2>
+      </div>
+      <div class="problem-panel">
+        <strong>For persons with disabilities, elderly individuals, rehabilitation patients, and caregivers, using a restroom can become physically exhausting and emotionally distressing.</strong>
+        <p>Existing solutions are often expensive, difficult to install, or dependent on major structural modifications. Kaiteki bridges this gap with retrofit-friendly systems designed for real-world environments.</p>
+      </div>
+    </section>
+
+    <section id="impact" class="bento-section">
+      <div class="section">
+        <div class="bento-head reveal">
+          <div>
+            <span class="chapter-label">Evidence</span>
+            <h2>Impact that partners can verify.</h2>
+          </div>
+          <p>Kaiteki's story is carried by deployments, users served, grants secured, and recognition across accessibility and healthcare ecosystems.</p>
+        </div>
+        <div class="bento-grid">
+          <article class="bento image overlay span-7 reveal">
+            <img src="assets/kaiteki-deployment-impact-corridor.png" alt="Wheelchair user and staff member moving through a healthcare corridor with accessible restroom wayfinding">
+            <div class="bento-content">
+              <h3>Deployments across hospitals, institutions, and accessibility ecosystems.</h3>
+              <p>Active operations across Hyderabad, Goa, Pune, and Bhimavaram.</p>
+            </div>
+          </article>
+          <article class="bento blue span-5 reveal delay">
+            <div>
+              <span class="stat-number">200+</span>
+              <h3>Units deployed</h3>
+            </div>
+            <p>Built for practical use, not showroom conditions.</p>
+          </article>
+          <article class="bento soft span-4 reveal">
+            <div>
+              <span class="stat-number">150+</span>
+              <h3>Direct beneficiaries impacted</h3>
+            </div>
+            <p>Supporting independence for people, caregivers, and institutions.</p>
+          </article>
+          <article class="bento map span-4 reveal delay">
+            <div>
+              <span class="stat-number">Rs. 25L+</span>
+              <h3>Non-dilutive grants secured</h3>
+            </div>
+            <p>Backed by accessibility and innovation ecosystems.</p>
+          </article>
+          <article class="bento olive span-4 reveal">
+            <div>
+              <span class="stat-number">TRL 8</span>
+              <h3>Commercial readiness achieved</h3>
+            </div>
+            <p>Ready for scaled institutional and public deployment.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="guko" class="section guko-section reveal" aria-labelledby="guko-title">
+      <div>
+        <span class="chapter-label">Meet GUKO</span>
+        <h2 id="guko-title">A patented non-electric bidet system for independent hygiene accessibility.</h2>
+        <p class="lead">GUKO retrofits directly onto existing western-style toilets without additional space or structural modifications.</p>
+        <ul class="feature-list" aria-label="GUKO features">
+          <li>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M14 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><strong>Dual accessibility:</strong> hand actuator and foot pedal options for different mobility needs.</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8h14M7 16h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <div><strong>Non-electric system:</strong> mechanical water-pressure design requiring zero electricity.</div>
+          </li>
+          <li>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12a7 7 0 0 1 14 0v6H5v-6Z" stroke="currentColor" stroke-width="2"/><path d="M9 18v-6a3 3 0 0 1 6 0v6" stroke="currentColor" stroke-width="2"/></svg>
+            <div><strong>Retrofit friendly:</strong> made for homes, hospitals, institutions, public infrastructure, and event deployments.</div>
+          </li>
+        </ul>
+      </div>
+      <figure class="product-card">
+        <img src="assets/guko-retrofit-bidet-product.png" alt="Retrofit bidet system with manual hand lever and foot pedal installed beside an accessible toilet">
+        <figcaption>Concept visual for GUKO-style retrofit accessibility. Final deployments may vary by installation environment.</figcaption>
+      </figure>
+    </section>
+
+    <section id="deployments" class="deployment-section">
+      <div class="section deployment-grid">
+        <div class="reveal">
+          <span class="chapter-label">Deployment network</span>
+          <h2>Trusted across accessibility and healthcare ecosystems.</h2>
+          <p class="lead">Kaiteki has collaborated with institutions, hospitals, innovation ecosystems, and accessibility organizations across India.</p>
+          <div class="partner-cloud" aria-label="Deployment and ecosystem partners">
+            <span>Enable India</span>
+            <span>T-Works Hyderabad</span>
+            <span>WE Hub</span>
+            <span>KIMS Sunshine Hospitals</span>
+            <span>Tata Steel Foundation</span>
+            <span>International Purple Fest Goa</span>
+            <span>Deepstambh Foundation</span>
+            <span>Divyang Bhavan Foundation</span>
+          </div>
+        </div>
+        <div class="deployment-image reveal delay">
+          <img src="assets/kaiteki-partner-infrastructure-review.png" alt="Healthcare and accessibility partners reviewing an accessible restroom deployment with a wheelchair user">
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro-grid reveal" aria-labelledby="recognition-title">
+      <div>
+        <span class="chapter-label">Recognition</span>
+        <h2 id="recognition-title">National credibility through inclusive innovation.</h2>
+      </div>
+      <div class="timeline">
+        <article>
+          <time>2024</time>
+          <div>
+            <h3>Winner, Pitch4Rare Competition</h3>
+            <p>First place at the Indo-US Rare Diseases Summit for adaptive mechanical hygiene solutions that improve independent living.</p>
+          </div>
+        </article>
+        <article>
+          <time>2025</time>
+          <div>
+            <h3>Winner, Purple Fest Pitch Fest</h3>
+            <p>Recognized through an inclusive entrepreneurship initiative backed by Rising Flames and the Godrej Group.</p>
+          </div>
+        </article>
+        <article>
+          <time>2025</time>
+          <div>
+            <h3>Featured by United Nations India</h3>
+            <p>Spotlighted globally as part of disability-led innovation and inclusive technology ecosystems.</p>
+          </div>
+        </article>
+        <article>
+          <time>2026</time>
+          <div>
+            <h3>Selected into T-Works ecosystem</h3>
+            <p>Supporting advanced prototyping, manufacturing optimization, infrastructure testing, and commercial deployment scaling.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap" class="roadmap-band">
+      <div class="section roadmap reveal">
+        <div>
+          <span class="chapter-label">Future infrastructure</span>
+          <h2>Beyond one product, toward accessible public systems.</h2>
+          <p class="lead">Kaiteki is expanding into larger accessibility infrastructure systems for public spaces, institutions, healthcare ecosystems, and urban environments.</p>
+        </div>
+        <div class="roadmap-list">
+          <article class="roadmap-item">
+            <span aria-hidden="true">1</span>
+            <div><h3>Portable accessible toilets</h3><p>Inclusive sanitation systems for public gatherings, sports events, disaster relief, healthcare camps, campuses, and tourism infrastructure.</p></div>
+          </article>
+          <article class="roadmap-item">
+            <span aria-hidden="true">2</span>
+            <div><h3>Accessible public infrastructure</h3><p>Restroom retrofits, sanitation accessibility systems, smart public deployments, and infrastructure consulting for inclusive spaces.</p></div>
+          </article>
+          <article class="roadmap-item">
+            <span aria-hidden="true">3</span>
+            <div><h3>Healthcare and rehabilitation solutions</h3><p>Human-centered systems for hospitals, rehabilitation centers, assisted living facilities, elderly care, and post-operative recovery.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery-section" aria-labelledby="gallery-title">
+      <div class="section">
+        <div class="gallery-head reveal">
+          <div>
+            <span class="chapter-label">Gallery</span>
+            <h2 id="gallery-title">Real moments from recognition, launches, and field conversations.</h2>
+          </div>
+          <p>These images show Kaiteki in public accessibility settings, institutional rooms, media coverage, and award platforms where GUKO and inclusive sanitation reached real audiences.</p>
+        </div>
+
+        <div class="gallery-bento" aria-label="Kaiteki gallery">
+          <button class="gallery-tile wide tall reveal" type="button" data-full="assets/gallery/kaiteki-gallery-03.jpg" data-caption="GUKO presented at the National Para Swimming Championship in Goa.">
+            <img src="assets/gallery/kaiteki-gallery-03.jpg" alt="Kaiteki founder presenting GUKO bidet at the National Para Swimming Championship stage in Goa" loading="lazy">
+            <span class="gallery-caption"><strong>National launch recognition</strong><span>GUKO presented in a public accessibility forum.</span></span>
+          </button>
+          <button class="gallery-tile reveal delay" type="button" data-full="assets/gallery/kaiteki-gallery-01.jpg" data-caption="Recognition at the SABAL Awards 5th edition by Tata Steel Foundation.">
+            <img src="assets/gallery/kaiteki-gallery-01.jpg" alt="Kaiteki representative receiving recognition at the SABAL Awards fifth edition" loading="lazy">
+            <span class="gallery-caption"><strong>SABAL Awards</strong><span>Recognition for accessibility innovation.</span></span>
+          </button>
+          <button class="gallery-tile reveal" type="button" data-full="assets/gallery/kaiteki-gallery-04.jpg" data-caption="Pitch4Rare recognition at the Indo-US Bridging Rare Summit 2024.">
+            <img src="assets/gallery/kaiteki-gallery-04.jpg" alt="Pitch4Rare winner collage showing Kaiteki Innovations and recognition materials" loading="lazy">
+            <span class="gallery-caption"><strong>Pitch4Rare Winner</strong><span>Recognition at the Indo-US rare disease summit.</span></span>
+          </button>
+          <button class="gallery-tile square reveal delay" type="button" data-full="assets/gallery/kaiteki-gallery-05.jpeg" data-caption="Kaiteki founder in conversation during an accessibility event in Goa.">
+            <img src="assets/gallery/kaiteki-gallery-05.jpeg" alt="Kaiteki founder wearing a Kaiteki Innovations shirt during an accessibility event conversation" loading="lazy">
+            <span class="gallery-caption"><strong>Public conversations</strong><span>Accessibility work in civic settings.</span></span>
+          </button>
+          <button class="gallery-tile wide reveal" type="button" data-full="assets/gallery/kaiteki-gallery-02.jpg" data-caption="Team and partner group photograph from an innovation ecosystem gathering.">
+            <img src="assets/gallery/kaiteki-gallery-02.jpg" alt="Kaiteki team and ecosystem partners posing for a group photograph" loading="lazy">
+            <span class="gallery-caption"><strong>Ecosystem partners</strong><span>Institutions, founders, and accessibility collaborators.</span></span>
+          </button>
+          <button class="gallery-tile reveal delay" type="button" data-full="assets/gallery/kaiteki-gallery-launch-news.jpg" data-caption="Sakshi Post coverage of Kaiteki Innovations and assistive technology exhibition.">
+            <img src="assets/gallery/kaiteki-gallery-launch-news.jpg" alt="Sakshi Post article covering Kaiteki Innovations and accessible technology" loading="lazy">
+            <span class="gallery-caption"><strong>Media coverage</strong><span>Assistive technology in the public record.</span></span>
+          </button>
+          <button class="gallery-tile reveal" type="button" data-full="assets/gallery/kaiteki-gallery-news-eenadu.jpg" data-caption="Eenadu newspaper coverage on GUKO bidet and accessibility innovation.">
+            <img src="assets/gallery/kaiteki-gallery-news-eenadu.jpg" alt="Eenadu newspaper article featuring GUKO bidet and Kaiteki accessibility work" loading="lazy">
+            <span class="gallery-caption"><strong>Regional press</strong><span>GUKO covered in Telugu media.</span></span>
+          </button>
+          <button class="gallery-tile reveal delay" type="button" data-full="assets/gallery/kaiteki-gallery-06.jpeg" data-caption="Kaiteki launch moment with GUKO displayed on stage.">
+            <img src="assets/gallery/kaiteki-gallery-06.jpeg" alt="Kaiteki launch event with GUKO bidet displayed on stage" loading="lazy">
+            <span class="gallery-caption"><strong>Launch moment</strong><span>GUKO shown to institutional audiences.</span></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section founder-section reveal" aria-labelledby="founder-title">
+      <div>
+        <span class="chapter-label">Founder</span>
+        <h2 id="founder-title">Raghu Duth Degala</h2>
+        <p class="lead">Founder & CEO</p>
+        <p>With over a decade of experience in training, facilitation, social innovation, and ecosystem building, Raghu's work focuses on practical accessibility solutions rooted in lived experience, human-centered design, and systems thinking.</p>
+      </div>
+      <blockquote>
+        "Accessibility should not depend on expensive renovations. It should be affordable, elegant, and human."
+        <cite>Raghu Duth Degala</cite>
+      </blockquote>
+    </section>
+
+    <section id="partner" class="partner-cta">
+      <div class="section">
+        <div class="reveal">
+          <span class="chapter-label">Connect with us</span>
+          <h2>Let's build accessible futures together.</h2>
+          <p class="lead">Kaiteki collaborates with healthcare institutions, governments, corporates, accessibility ecosystems, architects, and infrastructure partners to create inclusive environments for all.</p>
+          <form class="contact-form" aria-describedby="form-note">
+            <label>
+              Name
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>
+              Partnership focus
+              <textarea name="message" required placeholder="Institutional deployment, CSR, accessibility retrofit, public infrastructure, healthcare partnership..."></textarea>
+            </label>
+            <button class="button secondary" type="submit">Connect on WhatsApp</button>
+            <p id="form-note" class="form-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="partner-visual reveal delay">
+          <img src="assets/kaiteki-partner-infrastructure-review.png" alt="Deployment team and healthcare partners planning accessible public restroom infrastructure">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="gallery-dialog" aria-label="Gallery image preview">
+    <figure>
+      <img src="" alt="">
+      <figcaption>
+        <span></span>
+        <button class="dialog-close" type="button" aria-label="Close gallery preview">x</button>
+      </figcaption>
+    </figure>
+  </dialog>
+
+  <footer class="site-footer">
+    <div>
+      <strong>Kaiteki Innovations Private Limited</strong>
+      <span>Assistive Technology | Inclusive Infrastructure | Accessibility Innovation</span>
+    </div>
+    <div>
+      <span>Hyderabad | Goa | Amaravathi | Bhimavaram</span><br>
+      <span>CIN: U25209TG2022PTC162570</span><br>
+      <a href="#gallery">Browse gallery</a>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector(".menu-button");
+    const nav = document.querySelector(".nav-links");
+    const form = document.querySelector(".contact-form");
+    const statusNote = document.querySelector(".form-note");
+    const progress = document.querySelector(".scroll-progress");
+    const galleryDialog = document.querySelector(".gallery-dialog");
+    const galleryDialogImage = galleryDialog.querySelector("img");
+    const galleryDialogCaption = galleryDialog.querySelector("figcaption span");
+    const galleryClose = galleryDialog.querySelector(".dialog-close");
+
+    const updateProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = max > 0 ? window.scrollY / max : 0;
+      progress.style.transform = `scaleX(${Math.min(1, Math.max(0, ratio))})`;
+    };
+
+    menuButton.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      document.body.classList.toggle("nav-open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    });
+
+    nav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+        document.body.classList.remove("nav-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Open navigation");
+      });
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const message = encodeURIComponent(
+        `Hello Kaiteki Innovations,\n\nName: ${formData.get("name")}\nEmail: ${formData.get("email")}\nPartnership focus: ${formData.get("message")}`
+      );
+      statusNote.textContent = "Opening WhatsApp with your message.";
+      window.location.href = `https://wa.me/916300065853?text=${message}`;
+    });
+
+    document.querySelectorAll(".gallery-tile").forEach((tile) => {
+      tile.addEventListener("click", () => {
+        const image = tile.querySelector("img");
+        galleryDialogImage.src = tile.dataset.full;
+        galleryDialogImage.alt = image.alt;
+        galleryDialogCaption.textContent = tile.dataset.caption;
+        if (typeof galleryDialog.showModal === "function") {
+          galleryDialog.showModal();
+        }
+      });
+    });
+
+    galleryClose.addEventListener("click", () => {
+      galleryDialog.close();
+    });
+
+    galleryDialog.addEventListener("click", (event) => {
+      if (event.target === galleryDialog) {
+        galleryDialog.close();
+      }
+    });
+
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+  </script>
+</body>
+</html>
+
