@@ -1468,34 +1468,55 @@
       </blockquote>
     </section>
 
-    <section id="partner" class="partner-cta">
-      <div class="section">
-        <div class="reveal">
-          <span class="chapter-label">Connect with us</span>
-          <h2>Let's build accessible futures together.</h2>
-          <p class="lead">Kaiteki collaborates with healthcare institutions, governments, corporates, accessibility ecosystems, architects, and infrastructure partners to create inclusive environments for all.</p>
-          <form class="contact-form" aria-describedby="form-note">
-            <label>
-              Name
-              <input type="text" name="name" autocomplete="name" required>
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" autocomplete="email" required>
-            </label>
-            <label>
-              Partnership focus
-              <textarea name="message" required placeholder="Institutional deployment, CSR, accessibility retrofit, public infrastructure, healthcare partnership..."></textarea>
-            </label>
-            <button class="button secondary" type="submit">Connect on WhatsApp</button>
-            <p id="form-note" class="form-note" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-        <div class="partner-visual reveal delay">
-          <img src="assets/kaiteki-partner-infrastructure-review.png" alt="Deployment team and healthcare partners planning accessible public restroom infrastructure">
-        </div>
-      </div>
-    </section>
+    
+<section id="partner" class="partner-cta">
+  <div class="section">
+    <div class="reveal">
+      <span class="chapter-label">Connect with us</span>
+      <h2>Let's build accessible futures together.</h2>
+      <p class="lead">
+        Kaiteki collaborates with healthcare institutions, governments,
+        corporates, accessibility ecosystems, architects, and infrastructure
+        partners to create inclusive environments for all.
+      </p>
+
+      <form class="contact-form" id="contact-form">
+        <label>
+          Name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+
+        <label>
+          Partnership focus
+          <textarea
+            name="message"
+            required
+            placeholder="Institutional deployment, CSR, accessibility retrofit, public infrastructure, healthcare partnership..."
+          ></textarea>
+        </label>
+
+        <button class="button secondary" type="submit">
+          Send Email
+        </button>
+
+        <p id="form-note" class="form-note" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <div class="partner-visual reveal delay">
+      <img
+        src="assets/kaiteki-partner-infrastructure-review.png"
+        alt="Deployment team and healthcare partners planning accessible public restroom infrastructure"
+      >
+    </div>
+  </div>
+</section>
+
   </main>
 
   <dialog class="gallery-dialog" aria-label="Gallery image preview">
@@ -1588,6 +1609,36 @@
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
+
+
+
+
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const name = form.elements["name"].value.trim();
+  const email = form.elements["email"].value.trim();
+  const message = form.elements["message"].value.trim();
+
+  const subject = encodeURIComponent("New Partnership Inquiry - Kaiteki Innovations");
+
+  const body = encodeURIComponent(
+    `Name: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `Partnership Focus:\n${message}`
+  );
+
+  const mailtoLink =
+    `mailto:raghu.d@kaitekiinnovations.com?subject=${subject}&body=${body}`;
+
+  window.location.href = mailtoLink;
+
+  document.getElementById("form-note").textContent =
+    "Your email application is opening. Please send the prepared email.";
+});
+
   </script>
 </body>
 </html>
